@@ -1,9 +1,13 @@
 import os
 import json
-from flask import Flask, render_template
+
+# request is going to handle things like finding out what method we used, and also it will contain our form object when we've posted it
+# The flask library is used when we want to display a non-permanent message to the user, something that only stays until we refresh the page or go to a different one
+from flask import Flask, render_template, request, flash
 
 # After importing the class we need to create an instance of it and store it in a variable called app
 app = Flask(__name__)
+app.secret_key = 'some_secret'
 
 # We use the route decorator to tell Flask what URL should trigger the function that follows.
 # In Python, a decorator starts with the @ sign, which is
@@ -26,8 +30,25 @@ def about():
         data = json.load(json_data)
     return render_template("about.html", page_title="About", company=data)
     
-@app.route("/contact")
+# Her we create a new route which will display more info about the character once the user click on his names
+@app.route("/about/<member_name>")
+def about_member(member_name):
+    # First we create an empty object
+    member = {}
+    
+    with open("data/company.json", "r") as json_data:
+        data = json.load(json_data)
+        # Now we iterate through that data array that we've created
+        for obj in data:
+            if obj["url"] == member_name:
+                member = obj
+    
+    return render_template("member.html", member=member)
+    
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        flash("Thanks {}, we have received your message!".format(request.form["name"]))
     return render_template("contact.html", page_title="Contact")
     
 @app.route("/careers")

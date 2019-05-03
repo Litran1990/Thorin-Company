@@ -22,7 +22,7 @@ And that shows us exactly which iteration of the loop we're on.
     {% if loop.index % 2 != 0 %}
     
     <div class="col-md-7">
-        <h3>{{ loop.index }} {{ member.name }}</h3>
+        <h3><a href="/about/{{ member.url }}">{{ loop.index }} {{ member.name }}</a></h3>
         <p>{{ member.description }}</p>
     </div>
     <div class="col-md-5">
@@ -34,7 +34,7 @@ And that shows us exactly which iteration of the loop we're on.
         <img class="featurette-image img-responsive" src="{{ member.image_source }}" alt="Picture of {{ member.name }}">
     </div>
     <div class="col-md-7">
-        <h3>{{ loop.index }} {{ member.name }}</h3>
+        <h3><a href="/about/{{ member.url }}">{{ loop.index }} {{ member.name }}</a></h3>
         <p>{{ member.description }}</p>
     </div>
     
